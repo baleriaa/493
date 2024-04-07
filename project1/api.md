@@ -13,8 +13,7 @@
   "subCategory": "Convenience Store"
 }
 
-### Response: 
-  none
+### Response: -
 
 # modify business
 ## Request: PUT /businesses/{businessId}
@@ -30,14 +29,11 @@
   "subCategory": "Convenience Store"
 }
 
-### Response: 
-  none
-
+### Response: -
 
 # remove business
 ## Request: DELETE /businesses/{businessId}
-## Request body:
-  none
+## Request body: -
 
 ### Response:
   none
@@ -53,16 +49,50 @@
 
 <!-- Reviews -->
 # write a review
+## Request: POST /reviews
+## Request body:
+{
+  "rating": "4.2",
+  "dollar signs": "2",
+  "review": "review"
+}
 
+## Response: 
+Response body: -
 
 # modify a review
-
+## 
+## Request: PUT /reviews/{reviewId}
+## Request body:
+{
+  "rating": "4.2",
+  "dollar signs": "2",
+  "review": "review"
+}
+## Response: - 
 
 # remove a review
+## Request body: DELETE /reviews/{reviewId}
+## Request body: -
 
+## Response:
+  Response body:  -
 
 # get list of reviews user has written
+## Request: GET /reviews
+## Request body: -
 
+## Response:
+  Response body: 
+  {
+    "reviews": [
+      {
+        "rating": "4.2",
+        "dollar signs": "2",
+        "review": "review"
+      }
+    ]
+  }
 
 <!-- Photos -->
 # upload a photo
