@@ -245,6 +245,9 @@ PUT
 ```
 #### Request body:
 ```
+{
+  "caption": "Best day ever"
+}
 ```
 
 #### Response body:
@@ -259,9 +262,6 @@ DELETE
 ```
 #### Request body:
 ```
-{
-  "caption": "Best day ever"
-}
 ```
 #### Response body:
 ```
