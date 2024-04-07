@@ -263,7 +263,7 @@ DELETE
   "caption": "Best day ever"
 }
 ```
-### Response body:
+#### Response body:
 ```
 ```
 
