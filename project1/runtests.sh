@@ -6,21 +6,28 @@ status() {
     printf -- "-----------------------------------------------------\n"
 }
 
-# This is a comment
-# This is where I'm testing the businesses endpoint
+# Business endpoints tests
+status 'GET business should return first page of businesses'
+curl http://localhost:8086/businesses
 
-status 'GET business-by-id should return success'
-curl http://localhost:3000/businesses/2
+status 'GET business/businessID should return a specific business'
+curl http://localhost:8086/businesses/1
 
-status 'GET business-by-id should return failure'
-curl http://localhost:3000/businesses/9999
+status 'GET business + invalid businessID should return an error'
+curl http://localhost:8086/businesses/9999
 
-# Here's an example of splitting a big command across
-# multiple lines by ending the line with "\":
+status 'POST business should add a new business'
+curl -X POST http://localhost:8086/businesses \
+-H "Content-Type: application/json" \
+-d '{"name": "Test Business", "address": "Test", "city": "Test", "state": "Test", "zipCode": "Test", "phoneNumber": "Test", "category": "Test", "subCategory": "Test"}'
 
-curl -v -X PUT \
-    -H 'Content-Type: application/json' \
-    -d '{"starRating": "1", "dollarRaing": "1", "review": "Do not wish to return"}' \
-    http://localhost:3000/reviews/2
+status 'PUT business/businessID should update the indicated business'
+curl -X PUT http://localhost:8086/businesses/1 \
+-H "Content-Type: application/json" \
+-d '{"name": "Test Business test", "address": "Test", "city": "Test", "state": "Test", "zipCode": "Test", "phoneNumber": "Test", "category": "Test", "subCategory": "Test"}'
 
-# etc
+
+# Review endpoints tests
+
+
+# Photo endpoints tests
