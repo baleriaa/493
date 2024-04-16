@@ -1,14 +1,3 @@
-// implement a route for each of the API endpoints in design
-// parameterized API endpoints performs basic verification of the specified route parameters
-// any api endpoint that takes a request body should perform basic verification of provided data
-// each endpoint should respond with an appropriate http status code and when needed, a aresponse body
-// endpoints should be paginated when appropriate
-// Server should run on tcp port specified by PORT environment
-// able to start server using npm start
-// Dont worry about storing data in a server
-// dont worry about users, only businesses, reviews and photos
-// dont worry about photo pixel data
-
 const express = require('express')
 const app = express();
 
@@ -40,8 +29,34 @@ const businesses = [
     subCategory: "Test"
   }
 ];
-const reviews = [];
-const photos = [];
+const reviews = [
+  {
+    id: 1,
+    businessID: 1,
+    rating: 5,
+    dollarSigns: 4,
+    review: "Test"
+  },
+  {
+    id: 2,
+    businessID: 1,
+    rating: 5,
+    dollarSigns: 5,
+    review: "Test"
+  }
+];
+const photos = [
+  {
+    id: 1,
+    businessID: 1,
+    caption: "Test"
+  },
+  {
+    id: 2,
+    businessID: 1,
+    caption: "Test",
+  }
+];
 
 app.listen(port, () => {
   console.log("== Server is listening on port", port);
@@ -148,22 +163,136 @@ app.get('/businesses/:businessID', (req, res, next) => {
   }
 })
 
-
 // reviews
 
-// write
+// write 
+// TODO
+// app.post('reviews', (req, res) => {
+// })
 
+// modify
 
-// modify 
+app.put('/businesses/:businessID/reviews', (req, res, next) => {
+  var businessID = parseInt(req.params.businessID);
+
+  if (businesses[businessID]) {
+    var reviewID = parseInt(req.params.reviewID);
+
+    if (reviews[reviewID]) {
+      if (req.body && req.body.rating && req.body.dollarSigns && req.body.review) {
+        reviews[reviewID] = {
+          id: reviewID,
+          businessID: businessID,
+          rating: req.body.rating,
+          dollarSigns: req.body.dollarSigns,
+          review: req.body.review
+        };
+        res.status(200).json(reviews[reviewID]);
+      } else {
+        res.status(400).json({
+          error: "Request needs a JSON body with all required fields"
+        });
+      }
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+})
 // remove
-// get list of all
+app.delete('/businesses/:businessID/reviews/:reviewID', (req, res, next) => {
+  var businessID = parseInt(req.params.businessID);
+  var reviewID = parseInt(req.params.reviewID);
 
+  if (businesses[businessID] && reviews[reviewID]) {
+    reviews[reviewID] = null;
+    res.status(204).end();
+  } else {
+    next();
+  }
+})
+// get list of all
+app.get('/businesses/:businessID/reviews', (req, res, next) => {
+  var businessID = parseInt(req.params.businessID);
+  var page = parseInt(req.query.page) || 1;
+  var numPerPage = 10;
+  var lastPage = Math.ceil(reviews.length / numPerPage);
+
+  page = page < 1 ? 1 : page;
+  page = page > lastPage ? lastPage : page;
+  var start = (page - 1) * numPerPage;
+  var end = start + numPerPage;
+  var pageReviews = reviews.slice(start, end);
+  var links = {};
+
+  if (page < lastPage) {
+      links.nextPage = `/businesses/${businessID}/reviews?page=${page + 1}`;
+      links.lastPage = `/businesses/${businessID}/reviews?page=${lastPage}`;
+  }
+  if (page > 1) {
+      links.prevPage = `/businesses/${businessID}/reviews?page=${page - 1}`;
+      links.firstPage = `/businesses/${businessID}/reviews?page=1`;
+  }
+
+  res.status(200).json({
+    pageNumber: page,
+    totalPages: lastPage,
+    pageSize: numPerPage,
+    totalCount: reviews.length,
+    reviews: pageReviews,
+    links: links
+  });
+})
 
 // photos
 // upload
+
 // remove
+app.delete('/businesses/:businessID/photos/:photoID', (req, res, next) => {
+  var businessID = parseInt(req.params.businessID);
+  var photoID = parseInt(req.params.photoID);
+
+  if (businesses[businessID] && photos[photoID]) {
+    photos[photoID] = null;
+    res.status(204).end();
+  } else {
+    next();
+  }
+})
 // modify caption
 // get list of all photos a user has uploaded
+app.get('/businesses/:businessID/photos', (req, res, next) => {
+  var businessID = parseInt(req.params.businessID);
+  var page = parseInt(req.query.page) || 1;
+  var numPerPage = 10;
+  var lastPage = Math.ceil(photos.length / numPerPage);
+
+  page = page < 1 ? 1 : page;
+  page = page > lastPage ? lastPage : page;
+  var start = (page - 1) * numPerPage;
+  var end = start + numPerPage;
+  var pagePhotos = photos.slice(start, end);
+  var links = {};
+
+  if (page < lastPage) {
+      links.nextPage = `/businesses/${businessID}/photos?page=${page + 1}`;
+      links.lastPage = `/businesses/${businessID}/photos?page=${lastPage}`;
+  }
+  if (page > 1) {
+      links.prevPage = `/businesses/${businessID}/photos?page=${page - 1}`;
+      links.firstPage = `/businesses/${businessID}/photos?page=1`;
+  }
+
+  res.status(200).json({
+    pageNumber: page,
+    totalPages: lastPage,
+    pageSize: numPerPage,
+    totalCount: photos.length,
+    photos: pagePhotos,
+    links: links
+  });
+})
 
 
 
