@@ -171,14 +171,11 @@ app.get('/businesses/:businessID', (req, res, next) => {
 // })
 
 // modify
-
-app.put('/businesses/:businessID/reviews', (req, res, next) => {
+app.put('/businesses/:businessID/reviews/reviewId', (req, res) => {
   var businessID = parseInt(req.params.businessID);
+  var reviewID = parseInt(req.params.reviewID);
 
-  if (businesses[businessID]) {
-    var reviewID = parseInt(req.params.reviewID);
-
-    if (reviews[reviewID]) {
+  if (businesses[businessID] && reviews[reviewID]) {
       if (req.body && req.body.rating && req.body.dollarSigns && req.body.review) {
         reviews[reviewID] = {
           id: reviewID,
@@ -189,13 +186,10 @@ app.put('/businesses/:businessID/reviews', (req, res, next) => {
         };
         res.status(200).json(reviews[reviewID]);
       } else {
-        res.status(400).json({
-          error: "Request needs a JSON body with all required fields"
-        });
-      }
-    } else {
-      next();
-    }
+          res.status(400).json({
+            error: "Request needs a JSON body with all required fields"
+          });
+        }
   } else {
     next();
   }
@@ -247,7 +241,7 @@ app.get('/businesses/:businessID/reviews', (req, res, next) => {
 
 // photos
 // upload
-
+// TODO
 // remove
 app.delete('/businesses/:businessID/photos/:photoID', (req, res, next) => {
   var businessID = parseInt(req.params.businessID);
