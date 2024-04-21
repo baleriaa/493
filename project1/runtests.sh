@@ -25,7 +25,7 @@ status 'PUT business/businessID should update the indicated business'
 curl -X PUT http://localhost:8086/businesses/1 \
 -H "Content-Type: application/json" \
 -d '{"name": "PUT Test", "address": "Test", "city": "Test", "state": "Test", "zipCode": "Test", "phoneNumber": "Test", "category": "Test", "subCategory": "Test"}'
-
+############################################################################################################
 # Review endpoints 
 # status 'PUT business/businessID/reviews should edit the indicated review'
 # curl -X PUT http://localhost:8086/businesses/2/reviews \
@@ -36,5 +36,5 @@ curl -X PUT http://localhost:8086/businesses/1 \
 status 'GET reviews should return all reviews'
 curl http://localhost:8086/reviews
 
-
+############################################################################################################
 # Photo endpoints
