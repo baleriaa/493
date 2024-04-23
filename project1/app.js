@@ -59,7 +59,6 @@ app.listen(port, () => {
 });
 
 // businesses
-
 // add
 app.post('/businesses', (req, res) => {
   var {name, address, city, state, zipCode, phoneNumber, category, subCategory} = req.body;
@@ -168,7 +167,6 @@ app.get('/businesses/:businessID', (req, res, next) => {
 })
 
 // reviews
-
 // write 
 
 app.post('/reviews', (req, res, next) => {

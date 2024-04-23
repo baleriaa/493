@@ -27,7 +27,7 @@ curl -X PUT http://localhost:8086/businesses/1 \
 -H "Content-Type: application/json" \
 -d '{"name": "PUT Test", "address": "Test", "city": "Test", "state": "Test", "zipCode": "Test", "phoneNumber": "Test", "category": "Test", "subCategory": "Test"}'
 
-status 'DELETE business/businessID should delete the indicated business and return nothing'
+status 'DELETE business/businessID should delete the indicated business'
 curl -X DELETE http://localhost:8086/businesses/1
 
 ############################################################################################################
@@ -37,9 +37,8 @@ status 'PUT /reviews/reviewId should update the indicated review'
 curl -X PUT "http://localhost:8086/reviews/1" \
 -H "Content-Type: application/json" \
 -d '{"rating": 5, "dollarSigns": 5, "review": "nice"}' \
--v
 
-# status 'DELETE reviews/reviewID should delete the indicated review and return nothing'
+# status 'DELETE reviews/reviewID should delete the indicated review'
 # curl -X DELETE http://localhost:8086/reviews/1
 status 'GET reviews should return all reviews'
 curl http://localhost:8086/reviews
@@ -57,7 +56,7 @@ curl -X PUT http://localhost:8086/photos/1 \
 -H "Content-Type: application/json" \
 -d '{"caption": "PUT Test"}'   
 
-status 'DELETE photos/photoID should delete the indicated photo and return nothing'
+status 'DELETE photos/photoID should delete the indicated photos'
 curl -X DELETE http://localhost:8086/photos/1
 
 status 'GET photos should return all photos'
